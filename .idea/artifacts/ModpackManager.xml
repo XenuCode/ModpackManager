@@ -1,0 +1,33 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="ModpackManager">
+    <output-path>$PROJECT_DIR$/out/artifacts/ModpackManager</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="alias" value="" />
+        <option name="appClass" value="sample.Main" />
+        <option name="description" value="simple modpack manager" />
+        <option name="enabledSigning" value="true" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="icons">
+          <JavaFxApplicationIcons>
+            <option name="windowsIcon" value="$PROJECT_DIR$/src/sample/images/icons8-minecraft-creeper-50.ico" />
+          </JavaFxApplicationIcons>
+        </option>
+        <option name="keystore" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="ModpackManager" />
+        <option name="vendor" value="xenu" />
+        <option name="version" value="0.1" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="JavaFx_1_8.jar">
+        <element id="module-output" name="ModpackManager" />
+      </element>
+      <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-annotations:2.12.3" />
+      <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-core:2.12.3" />
+      <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-databind:2.12.3" />
+      <element id="library" level="project" name="net.lingala.zip4j:zip4j:2.8.0" />
+    </root>
+  </artifact>
+</component>
