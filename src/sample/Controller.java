@@ -54,6 +54,9 @@ public class Controller implements Initializable {
     Pane modpackPane;
     @FXML
     ChoiceBox languageList;
+    @FXML
+    Pane settingsPane;
+
 
     @FXML
     ImageView backgroundImage;
@@ -151,23 +154,24 @@ public class Controller implements Initializable {
     @FXML
     private void changePaneToNews(){
         modpackPane.setVisible(false);
-
+        settingsPane.setVisible(false);
     }
 
     @FXML
     private void changePaneToModpacks(){
         modpackPane.setVisible(true);
-
+        settingsPane.setVisible(false);
     }
 
     @FXML
     private void changePaneToDiscover(){
         modpackPane.setVisible(false);
-
+        settingsPane.setVisible(false);
     }
     @FXML
     private void changePaneToSettings(){
         modpackPane.setVisible(false);
+        settingsPane.setVisible(true);
     }
 
     private void updateData(String value)
