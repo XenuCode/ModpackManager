@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.*;
 
 
-public class Controller implements Initializable {
+public class  Controller implements Initializable {
 
     InstallationControl manager = new InstallationControl();
 
@@ -56,7 +56,8 @@ public class Controller implements Initializable {
     ChoiceBox languageList;
     @FXML
     Pane settingsPane;
-
+    @FXML
+    ChoiceBox languageListSettingsPanel;
 
     @FXML
     ImageView backgroundImage;
@@ -95,11 +96,15 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1)
     {
+        settingsPane.setVisible(false);
+        modpackPane.setVisible(true);
         languageObservableList.add("ENG");
         languageObservableList.add("POL");
         File languageDirectory = new File("");
         System.out.println(Arrays.toString(languageDirectory.listFiles()));
         languageList.setItems(languageObservableList);
+        languageListSettingsPanel.setItems(languageObservableList);
+        languageListSettingsPanel.setValue("ENG");
         languageList.setValue("ENG");
         listView.setItems(list);
 
