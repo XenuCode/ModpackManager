@@ -24,10 +24,6 @@
       <element id="archive" name="JavaFx_1_8.jar">
         <element id="module-output" name="ModpackManager" />
       </element>
-      <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-annotations:2.12.3" />
-      <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-core:2.12.3" />
-      <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-databind:2.12.3" />
-      <element id="library" level="project" name="net.lingala.zip4j:zip4j:2.8.0" />
     </root>
   </artifact>
 </component>
