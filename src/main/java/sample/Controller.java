@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
@@ -15,6 +16,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import sample.datamodels.jsonObjects.minecraftLauncher.localisation.Language;
 import sample.datamodels.other.ModpackData;
 import sample.datamodels.other.States;
@@ -31,17 +36,29 @@ public class  Controller implements Initializable {
 
     InstallationControl menager = new InstallationControl();
 
+    SettingsControler settingsControler = new SettingsControler();
+
+
     //translatation thingy
 
     @FXML
     private ResourceBundle bundle;
     private Locale locale = new Locale("EN");
+    private DirectoryChooser dir_chooser = new DirectoryChooser();
 
     //translatation thingy
 
     //FXML elements
 
 
+    @FXML
+    private Pane mainPane;
+    @FXML
+    private CheckBox checkCreateBackups;
+    @FXML
+    private CheckBox checkCasheSarchHistory;
+    @FXML
+    private CheckBox checkAutoUpdate;
     @FXML
     private Text settingsCreateBackups;
     @FXML
@@ -142,22 +159,24 @@ public class  Controller implements Initializable {
         }
     };
 
-    @Override
     public void initialize(URL arg0, ResourceBundle arg1)
     {
+        try {
+            settingsControler.loadSettings();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        menager.asyncGetModpackRepo();
         settingsPane.setVisible(false);
         modpackPane.setVisible(true);
         languageObservableList.add("EN");
         languageObservableList.add("PL");
-        File languageDirectory = new File("");
-        System.out.println(Arrays.toString(languageDirectory.listFiles()));
         languageList.setItems(languageObservableList);
         languageListSettingsPanel.setItems(languageObservableList);
-        languageListSettingsPanel.setValue("EN");
-        languageList.setValue("EN");
+        languageListSettingsPanel.setValue(settingsControler.getLanguage());
+        languageList.setValue(settingsControler.getLanguage());
         listView.setItems(list);
 
-        menager.getModpackRepo();
         menager.loadRepoData();
         menager.generateModpacksHashMap();
 
@@ -220,6 +239,31 @@ public class  Controller implements Initializable {
                 list=menager.getObservableList(list);
             }
         });
+        checkAutoUpdate.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean checkState) {
+                settingsControler.setAutoUpdates(checkState);
+                System.out.println(checkState);
+            }
+        });
+        checkCasheSarchHistory.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean checkState) {
+                settingsControler.setCasheSearchHistory(checkState);
+                System.out.println(checkState);
+            }
+        });
+        checkCreateBackups.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean checkState) {
+                settingsControler.setCreateBackups(checkState);
+                System.out.println(checkState);
+            }
+        });
+        checkAutoUpdate.setSelected(settingsControler.getAutoUpdates());
+        checkCasheSarchHistory.setSelected(settingsControler.getCasheSearchHistory());
+        checkCreateBackups.setSelected(settingsControler.getCreateBackups());
+        changeLanguage(settingsControler.getLanguage());
 
     }
     private void changeImage() throws FileNotFoundException {
@@ -234,11 +278,6 @@ public class  Controller implements Initializable {
         Thread installation = new Thread(modpackInstallation);
         installation.start();
     }
-    @FXML
-    Runnable changeLanguage = () -> {
-        Language language = new Language();
-        //language.changeLanguage();
-    };
 
     @FXML
     private void changePaneToNews(){
@@ -300,10 +339,8 @@ public class  Controller implements Initializable {
         settingsCreateBackups.setText(bundle.getString("settings.createbackups"));
         settingsAutoUpdate.setText(bundle.getString("settings.autoupdate"));
         settingsCacheSearchHistory.setText(bundle.getString("settings.cachesearchhistory"));
-
-
+        settingsControler.setLanguage(langCode);
         System.out.println(bundle.getString("settings.general"));
-
     }
 
     @FXML
@@ -322,5 +359,49 @@ public class  Controller implements Initializable {
             System.out.println(modpack.name + " phraseMach:  "+modpack.getPhraseMach());
         }
     }
+    @FXML
+    private void selectInstallationFolder()
+    {
+        dir_chooser.setTitle("select installation folder");
+        String es = dir_chooser.showDialog(mainPane.getScene().getWindow()).toString();
+        if(es !=null) {
+            settingsControler.setModpackInstallationFolderLocation(es);
+            System.out.println(es);
+        }
 
+    }
+    @FXML
+    private void selectDownloadFolder() //JUST WHY ???
+    {
+        dir_chooser.setTitle("select download folder");
+        String es = dir_chooser.showDialog(mainPane.getScene().getWindow()).toString();
+        if(es !=null) {
+            settingsControler.setModpackDownloadsFolder(es);
+            System.out.println(es);
+        }
+    }
+
+    @FXML
+    private void selectBackupFolder() {
+        dir_chooser.setTitle("select download folder");
+        String es = dir_chooser.showDialog(mainPane.getScene().getWindow()).toString();
+        if (es != null) {
+            settingsControler.setModpackBackupFolder(es);
+            System.out.println(es);
+        }
+    }
+    @FXML
+    private void setDefaultSettings()
+    {
+        try {
+            settingsControler.setDefaultSettings();
+            settingsControler.loadSettings();
+            checkAutoUpdate.setSelected(settingsControler.getAutoUpdates());
+            checkCasheSarchHistory.setSelected(settingsControler.getCasheSearchHistory());
+            checkCreateBackups.setSelected(settingsControler.getCreateBackups());
+            changeLanguage(settingsControler.getLanguage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

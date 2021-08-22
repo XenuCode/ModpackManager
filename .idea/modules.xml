@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ModpackManager.iml" filepath="$PROJECT_DIR$/ModpackManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OpenPhoenix.iml" filepath="$PROJECT_DIR$/OpenPhoenix.iml" />
     </modules>
   </component>
 </project>

@@ -22,7 +22,7 @@
     </properties>
     <root id="root">
       <element id="archive" name="JavaFx_1_8.jar">
-        <element id="module-output" name="ModpackManager" />
+        <element id="module-output" name="OpenPhoenix" />
       </element>
     </root>
   </artifact>

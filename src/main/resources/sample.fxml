@@ -16,7 +16,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Pane fx:id="modpackPane" prefHeight="575.0" prefWidth="1104.0">
          <children>
@@ -72,6 +73,63 @@
             <ChoiceBox fx:id="languageList" layoutX="43.0" layoutY="486.0" opacity="0.7" prefHeight="34.0" prefWidth="90.0" style="-fx-background-color: #696969; -fx-text-fill: #ffffff;" />
          </children>
       </Pane>
+      <Pane fx:id="settingsPane" focusTraversable="true" prefHeight="581.0" prefWidth="1104.0" style="-fx-background-color: #3e3e3e;">
+         <children>
+            <Text fx:id="settingsInstallationFolder" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="installation folder" textAlignment="CENTER" wrappingWidth="225.13671875">
+               <font>
+                  <Font name="Candara" size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="settingsDownloadsFolder" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="downloads folder" textAlignment="CENTER" wrappingWidth="225.13671875">
+               <font>
+                  <Font name="Candara" size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="settingsBackupFolder" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="backup folder" textAlignment="CENTER" wrappingWidth="225.13671875">
+               <font>
+                  <Font name="Candara" size="20.0" />
+               </font>
+            </Text>
+            <Button layoutX="385.0" layoutY="228.0" mnemonicParsing="false" onAction="#selectInstallationFolder" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="Select" />
+            <Button layoutX="385.0" layoutY="326.0" mnemonicParsing="false" onAction="#selectBackupFolder" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="Select" />
+            <Button layoutX="385.0" layoutY="275.0" mnemonicParsing="false" onAction="#selectDownloadFolder" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="Select" />
+            <Text fx:id="settingsGeneral" fill="WHITE" layoutX="227.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GENERAL" textAlignment="CENTER" wrappingWidth="255.3125">
+               <font>
+                  <Font name="Candara" size="28.0" />
+               </font>
+            </Text>
+            <ChoiceBox fx:id="languageListSettingsPanel" layoutX="385.0" layoutY="375.0" opacity="0.7" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969; -fx-text-fill: #ffffff;" />
+            <Text fx:id="settingsLanguage" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="language" textAlignment="CENTER" wrappingWidth="225.13671875">
+               <font>
+                  <Font name="Candara" size="20.0" />
+               </font>
+            </Text>
+            <Text fx:id="settingsAdvanced" fill="WHITE" layoutX="609.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ADVANCED" textAlignment="CENTER" wrappingWidth="276.138671875">
+               <font>
+                  <Font name="Candara" size="28.0" />
+               </font>
+            </Text>
+            <CheckBox fx:id="checkCreateBackups" layoutX="867.0" layoutY="254.0" mnemonicParsing="false" stylesheets="@mainStyle.css" />
+            <Text fx:id="settingsCreateBackups" fill="WHITE" fontSmoothingType="LCD" layoutX="632.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="create backups" textAlignment="CENTER" wrappingWidth="225.13671875">
+               <font>
+                  <Font name="Candara" size="20.0" />
+               </font>
+            </Text>
+            <CheckBox fx:id="checkCasheSarchHistory" layoutX="867.0" layoutY="301.0" mnemonicParsing="false" stylesheets="@mainStyle.css" />
+            <Text fx:id="settingsCacheSearchHistory" fill="WHITE" fontSmoothingType="LCD" layoutX="632.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cache  search history" textAlignment="CENTER" wrappingWidth="225.13671875">
+               <font>
+                  <Font name="Candara" size="20.0" />
+               </font>
+            </Text>
+            <CheckBox fx:id="checkAutoUpdate" layoutX="867.0" layoutY="355.0" mnemonicParsing="false" stylesheets="@mainStyle.css" />
+            <Text fx:id="settingsAutoUpdate" fill="WHITE" fontSmoothingType="LCD" layoutX="632.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="auto update" textAlignment="CENTER" wrappingWidth="225.13671875">
+               <font>
+                  <Font name="Candara" size="20.0" />
+               </font>
+            </Text>
+            <Button layoutX="513.0" layoutY="517.0" mnemonicParsing="false" onAction="#setDefaultSettings" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="DEFAULT" />
+         </children>
+      </Pane>
       <AnchorPane layoutX="649.0" layoutY="20.0">
          <children>
             <GridPane alignment="TOP_CENTER" prefHeight="44.0" prefWidth="417.0">
@@ -109,64 +167,5 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <Pane fx:id="settingsPane" focusTraversable="true" prefHeight="581.0" prefWidth="1104.0" style="-fx-background-color: #3e3e3e;">
-         <children>
-            <Text fx:id="settingsInstallationFolder" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="installation folder" textAlignment="CENTER" wrappingWidth="225.13671875">
-               <font>
-                  <Font name="Candara" size="20.0" />
-               </font>
-            </Text>
-            <Text fx:id="settingsDownloadsFolder" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="294.0" strokeType="OUTSIDE" strokeWidth="0.0" text="downloads folder" textAlignment="CENTER" wrappingWidth="225.13671875">
-               <font>
-                  <Font name="Candara" size="20.0" />
-               </font>
-            </Text>
-            <Text fx:id="settingsBackupFolder" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="backup folder" textAlignment="CENTER" wrappingWidth="225.13671875">
-               <font>
-                  <Font name="Candara" size="20.0" />
-               </font>
-            </Text>
-            <Button layoutX="385.0" layoutY="228.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="Select" />
-            <Button layoutX="385.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="Select" />
-            <Button layoutX="385.0" layoutY="326.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="Select" />
-            <Text fx:id="settingsGeneral" fill="WHITE" layoutX="227.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GENERAL" textAlignment="CENTER" wrappingWidth="255.3125">
-               <font>
-                  <Font name="Candara" size="28.0" />
-               </font>
-            </Text>
-            <ChoiceBox fx:id="languageListSettingsPanel" layoutX="385.0" layoutY="375.0" opacity="0.7" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969; -fx-text-fill: #ffffff;" />
-            <Text fx:id="settingsLanguage" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="language" textAlignment="CENTER" wrappingWidth="225.13671875">
-               <font>
-                  <Font name="Candara" size="20.0" />
-               </font>
-            </Text>
-            <Text fx:id="settingsAdvanced" fill="WHITE" layoutX="609.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ADVANCED" textAlignment="CENTER" wrappingWidth="276.138671875">
-               <font>
-                  <Font name="Candara" size="28.0" />
-               </font>
-            </Text>
-            <CheckBox layoutX="867.0" layoutY="254.0" mnemonicParsing="false" stylesheets="@mainStyle.css" />
-            <Text fx:id="settingsCreateBackups" fill="WHITE" fontSmoothingType="LCD" layoutX="632.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="create backups" textAlignment="CENTER" wrappingWidth="225.13671875">
-               <font>
-                  <Font name="Candara" size="20.0" />
-               </font>
-            </Text>
-            <CheckBox layoutX="867.0" layoutY="301.0" mnemonicParsing="false" stylesheets="@mainStyle.css" />
-            <Text fx:id="settingsCacheSearchHistory" fill="WHITE" fontSmoothingType="LCD" layoutX="632.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cache  search history" textAlignment="CENTER" wrappingWidth="225.13671875">
-               <font>
-                  <Font name="Candara" size="20.0" />
-               </font>
-            </Text>
-            <CheckBox layoutX="867.0" layoutY="355.0" mnemonicParsing="false" stylesheets="@mainStyle.css" />
-            <Text fx:id="settingsAutoUpdate" fill="WHITE" fontSmoothingType="LCD" layoutX="632.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="auto update" textAlignment="CENTER" wrappingWidth="225.13671875">
-               <font>
-                  <Font name="Candara" size="20.0" />
-               </font>
-            </Text>
-            <Button layoutX="614.0" layoutY="517.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="APPLY" />
-            <Button layoutX="513.0" layoutY="517.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="CANCEL" />
-            <Button layoutX="412.0" layoutY="517.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="DEFAULT" />
-         </children>
-      </Pane>
    </children>
 </Pane>

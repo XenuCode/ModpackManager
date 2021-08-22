@@ -105,6 +105,14 @@ public class InstallationControl {
         }
         return true;
     }
+    public void asyncGetModpackRepo()
+    {
+        Thread asyncModpackRepoDownload = new Thread(downloadModpackRepoThread);
+        asyncModpackRepoDownload.start();
+    }
+    Runnable downloadModpackRepoThread = () ->{
+        getModpackRepo();
+    };
     public boolean downloadModpackRepoOLD()
     {
         ReadableByteChannel readableByteChannel = null;
