@@ -1,5 +1,6 @@
 package sample.datamodels.other;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class ModpackData {
@@ -7,7 +8,8 @@ public class ModpackData {
     public String name,description,directLink,version,fileName,imageLink;
     //public String[] imageLinks;
     public int id,downloads;
-    //public java.sql.Timestamp lastUpdated; //I need to map it in Jackson
+    @JsonIgnore
+    public java.sql.Timestamp lastUpdated; //I need to map it in Jackson
     int phraseMach;
     public ModpackData() {
 

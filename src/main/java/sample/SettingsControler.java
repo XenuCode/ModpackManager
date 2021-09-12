@@ -1,21 +1,21 @@
 package sample;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
-
 import java.io.*;
 import java.util.Properties;
 
 public class SettingsControler {
-    private String modpackInstallationFolderLocation,modpackDownloadsFolder,modpackBackupFolder,language;
-    private Boolean createBackups,casheSearchHistory,autoUpdates;
+    private String modpackInstallationFolderLocation,
+            modpackDownloadsFolder,
+            modpackBackupFolder,
+            language;
+    private Boolean createBackups,
+            casheSearchHistory,
+            autoUpdates;
     private int deleteBackupsAfter;
 
     public void loadSettings() throws Exception {
         Properties settingsFile = new Properties();
-        File file = new File("/config.properties");
+        File file = new File(System.getenv("APPDATA")+"/config.properties");
         if(!file.isFile())
         {
             file.createNewFile();
@@ -36,9 +36,9 @@ public class SettingsControler {
         Properties settingsFile = new Properties();
         OutputStream out = new FileOutputStream(file);
 
-        settingsFile.setProperty("modpackInstallationFolderLocation",System.getenv("APPDATA")+"/ModpackManager/Modpacks");
-        settingsFile.setProperty("modpackDownloadsFolder",System.getenv("APPDATA")+"/ModpackManager/Modpacks");
-        settingsFile.setProperty("modpackBackupFolder",System.getenv("APPDATA")+"/ModpackManager/Modpacks/");
+        settingsFile.setProperty("modpackInstallationFolderLocation",System.getenv("APPDATA")+File.separator+"ModpackManager"+File.separator+"Modpacks");
+        settingsFile.setProperty("modpackDownloadsFolder",System.getenv("APPDATA")+File.separator+"ModpackManager"+File.separator+"Modpacks");
+        settingsFile.setProperty("modpackBackupFolder",System.getenv("APPDATA")+File.separator+"ModpackManager"+File.separator+"Modpacks");
         settingsFile.setProperty("language","EN");
         settingsFile.setProperty("createBackups","true");
         settingsFile.setProperty("casheSearchHistory","false");
@@ -49,7 +49,7 @@ public class SettingsControler {
     }
     public void setDefaultSettings() throws Exception
     {
-        File file = new File("/config.properties");
+        File file = new File(System.getenv("APPDATA")+"/config.properties");
         file.delete();
         file.createNewFile();
         setDefaultSettings(file);
@@ -60,7 +60,7 @@ public class SettingsControler {
     {
         try{
             Properties settingsFile = new Properties();
-            File file = new File("/config.properties");
+            File file = new File(System.getenv("APPDATA")+"/config.properties");
             file.createNewFile();
             OutputStream out = new FileOutputStream(file);
             settingsFile.setProperty("modpackInstallationFolderLocation",modpackInstallationFolderLocation);

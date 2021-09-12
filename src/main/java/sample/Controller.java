@@ -1,13 +1,12 @@
 package sample;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -16,27 +15,25 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
-import sample.datamodels.jsonObjects.minecraftLauncher.localisation.Language;
+import javafx.util.Callback;
 import sample.datamodels.other.ModpackData;
 import sample.datamodels.other.States;
 
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.*;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 public class  Controller implements Initializable {
 
-    InstallationControl menager = new InstallationControl();
+    InstallationControl installationControl = new InstallationControl();
 
     SettingsControler settingsControler = new SettingsControler();
+    RepoControl repoControl = new RepoControl();
 
 
     //translatation thingy
@@ -44,7 +41,7 @@ public class  Controller implements Initializable {
     @FXML
     private ResourceBundle bundle;
     private Locale locale = new Locale("EN");
-    private DirectoryChooser dir_chooser = new DirectoryChooser();
+    private final DirectoryChooser dir_chooser = new DirectoryChooser();
 
     //translatation thingy
 
@@ -103,7 +100,7 @@ public class  Controller implements Initializable {
      Text installationProcess;
 
     @FXML
-    private ListView<String>listView;
+    private ListView<ModpackData>listView;
 
     @FXML
     Button InstallModpack;
@@ -115,20 +112,20 @@ public class  Controller implements Initializable {
     @FXML
     Pane modpackPane;
     @FXML
-    ChoiceBox languageList;
+    ChoiceBox<String> languageList;
     @FXML
     Pane settingsPane;
     @FXML
-    ChoiceBox languageListSettingsPanel;
+    ChoiceBox<String> languageListSettingsPanel;
 
     @FXML
     ImageView backgroundImage;
 
     @FXML
-    private ObservableList<String> languageObservableList = FXCollections.observableArrayList();
+    private final ObservableList<String> languageObservableList = FXCollections.observableArrayList();
 
     @FXML
-    private ObservableList<String> list = FXCollections.observableArrayList();
+    private ObservableList<ModpackData> list = FXCollections.observableArrayList();
 
     //threads
     @FXML
@@ -137,7 +134,7 @@ public class  Controller implements Initializable {
 
         ResourceBundle bundle = ResourceBundle.getBundle("bundle",locale);
 
-        menager.runFullModpackInstallation(menager.currentModpack,downloadProgress,installationProcess,new States(
+        installationControl.runFullModpackInstallation(installationControl.currentModpack,downloadProgress,installationProcess,new States(
                 bundle.getString("state.ready"),
                 bundle.getString("state.downloading"),
                 bundle.getString("state.decompressing"),
@@ -152,7 +149,7 @@ public class  Controller implements Initializable {
     @FXML
     Runnable downloadModpackImages = () -> {
         try {
-            menager.downloadModpackImage(menager.currentModpack);
+            HttpStuff.downloadModpackImage(installationControl.currentModpack);
             changeImage();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -166,7 +163,8 @@ public class  Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        menager.asyncGetModpackRepo();
+       // repoControl.asyncGetModpackRepo();//need to make it so that it pops up a message with repo download progress (create a new function in this file)
+
         settingsPane.setVisible(false);
         modpackPane.setVisible(true);
         languageObservableList.add("EN");
@@ -177,27 +175,49 @@ public class  Controller implements Initializable {
         languageList.setValue(settingsControler.getLanguage());
         listView.setItems(list);
 
-        menager.loadRepoData();
-        menager.generateModpacksHashMap();
 
-        list= menager.getObservableList(list);
+        repoControl.getModpackRepo();
+        repoControl.loadFromPublicRepo();
+        SearchControl.getObservableList(list, repoControl.modpacks);
         //
-        list.addListener(new ListChangeListener<String>() {
-            @Override
-            public void onChanged(Change<? extends String> change) {
 
-            }});
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        listView.setCellFactory(new Callback<ListView<ModpackData>, ListCell<ModpackData>>(){
+
             @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                System.out.println(observableValue.getValue());
+            public ListCell<ModpackData> call(ListView<ModpackData> p) {
+
+                ListCell<ModpackData> cell = new ListCell<ModpackData>(){
+
+                    @Override
+                    protected void updateItem(ModpackData modpack, boolean bln) {
+                        super.updateItem(modpack, bln);
+                        if (modpack != null) {
+                            setText(modpack.name);
+                        }
+                        else {
+                            setText("");
+                        }
+                    }
+
+                };
+
+                return cell;
+            }
+        });
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModpackData>() {
+            @Override
+            public void changed(ObservableValue<? extends ModpackData> observableValue, ModpackData modpackData, ModpackData t1) {
+                System.out.println("name of modpack: " +observableValue.getValue().name);
+                System.out.println("id of modpack: "+observableValue.getValue().id);
                 updateData(observableValue.getValue());
                 try {
-                    File directory = new File(System.getenv("APPDATA")+"\\Xeno-Updater\\Modpacks\\"+menager.currentModpack.id+"\\images\\background.png");
-                    System.out.println(menager.currentModpack.id);
+
+                    File directory = new File(System.getenv("APPDATA")+File.separator+"Xeno-Updater"+File.separator+"Modpacks"+File.separator+installationControl.currentModpack.id+File.separator+"images"+File.separator+"background.png");
+
+                    System.out.println(installationControl.currentModpack.id);
                     if (!directory.isFile())
                     {
-                        File subDirectory = new File(System.getenv("APPDATA")+"\\Xeno-Updater\\Modpacks\\"+menager.currentModpack.id+"\\images");
+                        File subDirectory = new File(System.getenv("APPDATA")+File.separator+"Xeno-Updater"+File.separator+"Modpacks"+File.separator+installationControl.currentModpack.id+File.separator+"images");
                         subDirectory.mkdirs();
                         Thread asyncDownload = new Thread(downloadModpackImages);
                         asyncDownload.start();
@@ -236,7 +256,7 @@ public class  Controller implements Initializable {
 
                 Thread asyncSearch = new Thread(searchForPhrase);
                 asyncSearch.start();
-                list=menager.getObservableList(list);
+                list=SearchControl.getObservableList(list,repoControl.modpacks);
             }
         });
         checkAutoUpdate.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -267,7 +287,7 @@ public class  Controller implements Initializable {
 
     }
     private void changeImage() throws FileNotFoundException {
-        FileInputStream stream = new FileInputStream(System.getenv("APPDATA")+"\\ModpackManager\\Modpacks\\"+menager.currentModpack.id+"\\images\\background.png");
+        FileInputStream stream = new FileInputStream(System.getenv("APPDATA")+File.separator+"ModpackManager"+File.separator+"Modpacks"+File.separator+installationControl.currentModpack.id+File.separator+"images"+File.separator+"background.png");
         Image background = new Image(stream);
         backgroundImage.setImage(background);
         System.out.println("changed ?");
@@ -307,12 +327,12 @@ public class  Controller implements Initializable {
         }
 
     };
-    private void updateData(String value)
+    private void updateData(ModpackData value)
     {
-        menager.currentModpack  = menager.modpackHashMap.get(value);
-        modpackName.setText(menager.currentModpack.name);
-        descriptionLabel.setText(menager.currentModpack.description);
-        modpackVersion.setText(menager.currentModpack.version);
+        installationControl.currentModpack  = value;
+        modpackName.setText(installationControl.currentModpack.name);
+        descriptionLabel.setText(installationControl.currentModpack.description);
+        modpackVersion.setText(installationControl.currentModpack.version);
         installationProcess.setText("ready");
         downloadProgress.setProgress(0);
     }
@@ -351,11 +371,11 @@ public class  Controller implements Initializable {
     @FXML
     private void searchSomething(String phrase)
     {
-        menager.modpacks= SearchControl.calculatePhraseMatch(menager.modpacks,phrase);
-        menager.modpacks= SearchControl.sortData(menager.modpacks,true);
+        repoControl.modpacks= SearchControl.calculatePhraseMatch(repoControl.modpacks,phrase);
+        repoControl.modpacks= SearchControl.sortData(repoControl.modpacks,true);
 
         System.out.println("List:");
-        for (ModpackData modpack: menager.modpacks) {
+        for (ModpackData modpack: repoControl.modpacks) {
             System.out.println(modpack.name + " phraseMach:  "+modpack.getPhraseMach());
         }
     }

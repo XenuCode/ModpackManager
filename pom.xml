@@ -33,12 +33,6 @@
             <artifactId>jackson-core</artifactId>
             <version>2.12.3</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.tomlj</groupId>
-            <artifactId>tomlj</artifactId>
-            <version>1.0.0</version>
-        </dependency>
         <dependency>
             <groupId>me.xdrop</groupId>
             <artifactId>fuzzywuzzy</artifactId>

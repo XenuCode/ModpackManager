@@ -15,7 +15,7 @@ public class MinecraftLauncherProfileController {
 
             // convert JSON string to Book object
             try {
-                FullConfig config = mapper.readValue(Paths.get(System.getenv("APPDATA")+"\\.minecraft\\launcher_profiles.json").toFile(), FullConfig.class);
+                FullConfig config = mapper.readValue(Paths.get(System.getenv("APPDATA")+"/.minecraft/launcher_profiles.json").toFile(), FullConfig.class);
                 LauncherProfiles profile = new LauncherProfiles();
                 profile.name=name;
                 profile.lastVersionId=lastVersionId;
@@ -24,8 +24,8 @@ public class MinecraftLauncherProfileController {
                 profile.type=profileType;
                 config.profiles.put(profileKey,profile);
 
-                mapper.writeValue(Paths.get(System.getenv("APPDATA")+"\\.minecraft\\launcher_profiles.json").toFile(), config);
-                System.out.println("");
+                mapper.writeValue(Paths.get(System.getenv("APPDATA")+"/.minecraft/launcher_profiles.json").toFile(), config);
+                System.out.println();
             } catch (IOException e) {
                 e.printStackTrace();
             }

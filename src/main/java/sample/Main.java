@@ -6,13 +6,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
+import java.awt.*;
+import java.util.Objects;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/sample.fxml")));
         root.getStylesheets().add("/mainStyle.css");
         primaryStage.setTitle("OpenPhoenix");
         primaryStage.setScene(new Scene(root));
