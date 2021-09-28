@@ -15,10 +15,10 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.HashMap;
 import java.util.List;
 
-public class RepoControl extends Thread{
+public class RepoControl extends Thread {
 
     List<ModpackData> modpacks =null;
-    HashMap<String,ModpackData> modpackHashMap = new HashMap<String,ModpackData>();
+    HashMap<String,ModpackData> modpackHashMap = new HashMap<>();
 
     // this is sick :D
     /**
@@ -26,29 +26,35 @@ public class RepoControl extends Thread{
      */
     public void asyncGetModpackRepo()
     {
-        new Thread(() -> {
-            if(getModpackRepo())
+        new Thread(new Runnable() {
+            public void run()
             {
+                System.out.println("STARTED");
+                getModpackRepo();
+                System.out.println("FINISHED DOWNLOADING");
                 loadFromPublicRepo();
-                loadFromLocalRepo();
+                //loadFromLocalRepo();
+                System.out.println("closing popup");
             }
-        });
+        }).start();
     }
 
 
     public  boolean getModpackRepo()
     {
-        ReadableByteChannel readableByteChannel = null;
+        ReadableByteChannel readableByteChannel;
         try {
+            System.out.println("WHAT");
             readableByteChannel = Channels.newChannel(new URL("http://www.wholesomecraft.pl/api/getrepo.php").openStream());
-            File directory = new File(System.getenv("APPDATA")+"/OpenPhoenix/public/repo");
+            File directory = new File(System.getenv("APPDATA")+"/ModpackManager/public/repo");
             if(!directory.isDirectory())
             {
                 directory.mkdirs();
             }
-            FileOutputStream fileOutputStream = new FileOutputStream(System.getenv("APPDATA")+"/OpenPhoenix/public/repo.json");
+            FileOutputStream fileOutputStream = new FileOutputStream(System.getenv("APPDATA")+"/ModpackManager/public/repo.json");
             FileChannel fileChannel = fileOutputStream.getChannel();
             fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -57,15 +63,15 @@ public class RepoControl extends Thread{
     }
     private static boolean getModpackRepo(int offset,int limit)
     {
-        ReadableByteChannel readableByteChannel = null;
+        ReadableByteChannel readableByteChannel;
         try {
             readableByteChannel = Channels.newChannel(new URL("http://www.wholesomecraft.pl/api/getrepo.php?limit="+limit+"&offset="+offset).openStream());
-            File directory = new File(System.getenv("APPDATA")+"/OpenPhoenix/repo");
+            File directory = new File(System.getenv("APPDATA")+"/ModpackManager/repo");
             if(!directory.isDirectory())
             {
                 directory.mkdirs();
             }
-            FileOutputStream fileOutputStream = new FileOutputStream(System.getenv("APPDATA")+"/OpenPhoenix/repo"+"/repo.json");
+            FileOutputStream fileOutputStream = new FileOutputStream(System.getenv("APPDATA")+"/ModpackManager/repo"+"/repo.json");
             FileChannel fileChannel = fileOutputStream.getChannel();
             fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (IOException e) {
@@ -76,15 +82,15 @@ public class RepoControl extends Thread{
     }
     private static boolean getModpackRepo(int limit)
     {
-        ReadableByteChannel readableByteChannel = null;
+        ReadableByteChannel readableByteChannel;
         try {
             readableByteChannel = Channels.newChannel(new URL("http://www.wholesomecraft.pl/api/getrepo.php?limit="+limit).openStream());
-            File directory = new File(System.getenv("APPDATA")+"/OpenPhoenix/repo");
+            File directory = new File(System.getenv("APPDATA")+"/ModpackManager/repo");
             if(!directory.isDirectory())
             {
                 directory.mkdirs();
             }
-            FileOutputStream fileOutputStream = new FileOutputStream(System.getenv("APPDATA")+"/OpenPhoenix/repo"+"/repo.json");
+            FileOutputStream fileOutputStream = new FileOutputStream(System.getenv("APPDATA")+"/ModpackManager/repo"+"/repo.json");
             FileChannel fileChannel = fileOutputStream.getChannel();
             fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (IOException e) {
@@ -96,7 +102,7 @@ public class RepoControl extends Thread{
     private boolean loadFromLocalRepo()
     {
         ObjectMapper deserializerLol =new ObjectMapper().configure(DeserializationFeature.WRAP_EXCEPTIONS, false);
-        File file = new File(System.getenv("APPDATA")+"/OpenPhoenix/local/repo.json");
+        File file = new File(System.getenv("APPDATA")+"/ModpackManager/local/repo.json");
         try {
             modpacks.addAll(deserializerLol.readValue(file, new TypeReference<List<ModpackData>>(){}));
         } catch (IOException e) {
@@ -109,7 +115,7 @@ public class RepoControl extends Thread{
     {
         try {
             ObjectMapper deserializerLol =new ObjectMapper().configure(DeserializationFeature.WRAP_EXCEPTIONS, false);
-            File file = new File(System.getenv("APPDATA")+"/OpenPhoenix/public/repo.json");
+            File file = new File(System.getenv("APPDATA")+"/ModpackManager/public/repo.json");
             modpacks = deserializerLol.readValue(file, new TypeReference<List<ModpackData>>(){});
             System.out.println(modpacks.get(0).name);
         } catch (IOException e) {

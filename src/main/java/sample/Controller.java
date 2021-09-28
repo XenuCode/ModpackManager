@@ -1,10 +1,8 @@
 package sample;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,9 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import sample.datamodels.other.ModpackData;
 import sample.datamodels.other.States;
@@ -28,8 +29,14 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 
-public class  Controller implements Initializable {
+public class  Controller implements Initializable{
 
+    private Stage stage;
+
+    //in controller
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
     InstallationControl installationControl = new InstallationControl();
 
     SettingsControler settingsControler = new SettingsControler();
@@ -47,7 +54,10 @@ public class  Controller implements Initializable {
 
     //FXML elements
 
-
+    @FXML
+    private AnchorPane navigationPane;
+    @FXML
+    private Pane repoLoadPane;
     @FXML
     private Pane mainPane;
     @FXML
@@ -163,8 +173,9 @@ public class  Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       // repoControl.asyncGetModpackRepo();//need to make it so that it pops up a message with repo download progress (create a new function in this file)
 
+        repoControl.asyncGetModpackRepo();
+       // repoControl.asyncGetModpackRepo();//need to make it so that it pops up a message with repo download progress (create a new function in this file)
         settingsPane.setVisible(false);
         modpackPane.setVisible(true);
         languageObservableList.add("EN");
@@ -176,9 +187,9 @@ public class  Controller implements Initializable {
         listView.setItems(list);
 
 
-        repoControl.getModpackRepo();
-        repoControl.loadFromPublicRepo();
-        SearchControl.getObservableList(list, repoControl.modpacks);
+        //repoControl.getModpackRepo();
+        //repoControl.loadFromPublicRepo();
+        //SearchControl.getObservableList(list, repoControl.modpacks);
         //
 
         listView.setCellFactory(new Callback<ListView<ModpackData>, ListCell<ModpackData>>(){
@@ -186,7 +197,7 @@ public class  Controller implements Initializable {
             @Override
             public ListCell<ModpackData> call(ListView<ModpackData> p) {
 
-                ListCell<ModpackData> cell = new ListCell<ModpackData>(){
+                return new ListCell<ModpackData>(){
 
                     @Override
                     protected void updateItem(ModpackData modpack, boolean bln) {
@@ -200,8 +211,6 @@ public class  Controller implements Initializable {
                     }
 
                 };
-
-                return cell;
             }
         });
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModpackData>() {
@@ -291,6 +300,25 @@ public class  Controller implements Initializable {
         Image background = new Image(stream);
         backgroundImage.setImage(background);
         System.out.println("changed ?");
+    }
+    @FXML
+    private void synchroniseRepoStart()
+    {
+        repoLoadPane.setVisible(true);
+        repoLoadPane.requestFocus();
+        repoLoadPane.setDisable(false);
+        modpackPane.setDisable(true);
+        settingsPane.setDisable(true);
+        navigationPane.setDisable(true);
+
+    }
+    @FXML
+    private void synchroniseRepoEnd()
+    {
+        repoLoadPane.setVisible(false);
+        repoLoadPane.setDisable(true);
+        modpackPane.setDisable(false);
+        settingsPane.setDisable(false);
     }
     @FXML
     private void InstallModpack()
@@ -423,5 +451,17 @@ public class  Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @FXML
+    private void closeProgram(){
+        System.out.println("CLOSING");
+        stage.fireEvent(
+                new WindowEvent(
+                        stage,
+                        WindowEvent.WINDOW_CLOSE_REQUEST
+                )
+        );
     }
 }

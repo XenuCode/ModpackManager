@@ -1,32 +1,20 @@
 package sample;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.collections.FXCollections;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import net.lingala.zip4j.ZipFile;
-
-import java.awt.*;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import javafx.collections.ObservableList;
-import net.lingala.zip4j.model.UnzipParameters;
 import sample.datamodels.other.ModpackData;
 import sample.datamodels.other.States;
+
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Comparator;
 
 public class InstallationControl {
     //variables to be loaded from config.json
@@ -95,30 +83,30 @@ public class InstallationControl {
             e.printStackTrace();
         }
     }
-    private String chop4Characters(String original)
-    {
-        return original.substring(0,original.length()-4);
+    private String chop4Characters(String original) {
+        return original.substring(0, original.length() - 4);
     }
-    public void runFullModpackInstallation(ModpackData modpackToInstall, ProgressBar bar, Text installationProcess, States state){
+
+    public void runFullModpackInstallation(ModpackData modpackToInstall, ProgressBar bar, Text installationProcess, States state) {
         try {
-            Notification.displayNotification("Started installing modpack","modpack "+modpackToInstall.name+" is being installed", TrayIcon.MessageType.INFO);
-            File directory = new File(System.getenv("APPDATA")+"/"+"Local"+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id);
-            if(!directory.isDirectory())
-            {
-                new File(System.getenv("APPDATA")+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id).mkdirs();
+            Notification.displayNotification("Started installing modpack", "modpack " + modpackToInstall.name + " is being installed", TrayIcon.MessageType.INFO);
+            File directory = new File(System.getenv("APPDATA") + "/" + "Local" + "/" + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id);
+            if (!directory.isDirectory()) {
+                new File(System.getenv("APPDATA") + "/" + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id).mkdirs();
             }
             installationProcess.setText(state.getDownloadingState());
-            System.out.println("starting to downloadmodpack: "+currentModpack.name);
+            System.out.println("starting to downloadmodpack: " + currentModpack.name);
             System.out.println(HttpStuff.getRemoteFileSize(new URL(currentModpack.directLink)));
-            HttpStuff.downloadModpackFilesHTTP(System.getenv("APPDATA")+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id,new URL(modpackToInstall.directLink),bar,modpackToInstall);
+            HttpStuff.downloadModpackFilesHTTP(System.getenv("APPDATA") + "/" + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id, new URL(modpackToInstall.directLink), bar, modpackToInstall);
 
-            System.out.println(System.getenv("APPDATA")+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id);
+            System.out.println(System.getenv("APPDATA") + "/" + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id);
             installationProcess.setText(state.getDecompressionState());
             //extracts all files both installer and modpack itself\
-            System.out.println(System.getenv("APPDATA")+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id+"/"+currentModpack.fileName + "AAAAAAAAAAGHh");
-            String toBeExtractedPath=System.getenv("APPDATA")+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id+"/"+currentModpack.fileName;
-            String extractionPath=System.getenv("APPDATA")+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id;
+            System.out.println(System.getenv("APPDATA") + "/" + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id + "/" + currentModpack.fileName + "AAAAAAAAAAGHh");
+            String toBeExtractedPath = System.getenv("APPDATA") + "/" + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id + "/" + currentModpack.fileName;
+            String extractionPath = System.getenv("APPDATA") + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id;
             new ZipFile(toBeExtractedPath).extractAll(extractionPath);
+            //new ZipFile(toBeExtractedPath).extractAll(extractionPath);
             //new ZipFile(System.getenv("APPDATA")+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id+"/"+currentModpack.fileName).extractAll(System.getenv("APPDATA")+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id);
             installationProcess.setText(state.getEngineInstallationState());
             //runs mod engine installer
@@ -127,8 +115,8 @@ public class InstallationControl {
             //to enable in settings in future ??? Process p = new ProcessBuilder("explorer.exe", "/select,"+System.getenv("APPDATA")+"/Xeno-Updater/Modpacks/"+currentModpack.id +"/"+chop4Characters(currentModpack.fileName)+"/installer.jar").start();
             //lets say it works LOL
             installationProcess.setText(state.getModsDecompressionState());
-            extractZipFile(System.getenv("APPDATA")+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id+"/"+chop4Characters(currentModpack.fileName)+"/"+"mods.zip",minecraftPath);
-            System.out.println(System.getenv("APPDATA")+"/"+"ModpackManager"+"/"+"Modpacks"+"/"+currentModpack.id+"/"+chop4Characters(currentModpack.fileName)+"/"+"mods.zip");
+            extractZipFile(System.getenv("APPDATA") + "/" + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id + "/" + chop4Characters(currentModpack.fileName) + "/" + "mods.zip", minecraftPath);
+            System.out.println(System.getenv("APPDATA") + "/" + "ModpackManager" + "/" + "Modpacks" + "/" + currentModpack.id + "/" + chop4Characters(currentModpack.fileName) + "/" + "mods.zip");
 
 
             Notification.displayNotification("Succesfull installation of modpack","installation of  "+modpackToInstall.name+" was succesfull", TrayIcon.MessageType.INFO);

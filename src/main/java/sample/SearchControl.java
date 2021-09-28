@@ -3,6 +3,7 @@ package sample;
 import javafx.collections.ObservableList;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import sample.datamodels.other.ModpackData;
+
 import java.util.Comparator;
 import java.util.List;
 
@@ -27,12 +28,20 @@ public class SearchControl {
     }
     private static float getAverageMatch(List<ModpackData> modpacks)
     {
-        float sum=0;
-        for (ModpackData modpack:modpacks) {
-        sum=+modpack.getPhraseMach();
+        if(modpacks.isEmpty())
+        {
+            return -1;
         }
-        sum/=(float)modpacks.size();
-        return sum*10;
+        else
+        {
+            float sum=0;
+            for (ModpackData modpack:modpacks) {
+                sum=+modpack.getPhraseMach();
+            }
+            sum/=(float)modpacks.size();
+            return sum*10;
+        }
+
     }
     public static ObservableList<ModpackData> getObservableList(ObservableList<ModpackData> list, List<ModpackData> modpacks)
     {

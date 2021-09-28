@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.control.ProgressBar;
 import sample.datamodels.other.ModpackData;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +49,7 @@ public class HttpStuff {
             });
             FileOutputStream fos = new FileOutputStream(downloadPath+"/"+currentModpack.fileName);
             fos.getChannel().transferFrom(rcbc, 0, Long.MAX_VALUE);
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
