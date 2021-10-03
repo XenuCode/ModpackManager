@@ -17,7 +17,7 @@ import java.util.List;
 
 public class RepoControl extends Thread {
 
-    List<ModpackData> modpacks =null;
+    public List<ModpackData> modpacks =null;
     HashMap<String,ModpackData> modpackHashMap = new HashMap<>();
 
     // this is sick :D

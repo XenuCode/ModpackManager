@@ -1,29 +1,34 @@
-package sample;
+package sample.fxml;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.stage.*;
 import javafx.util.Callback;
+import sample.*;
 import sample.datamodels.other.ModpackData;
 import sample.datamodels.other.States;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -54,6 +59,10 @@ public class  Controller implements Initializable{
 
     //FXML elements
 
+    @FXML
+    private Button close;
+    @FXML
+    private Button minimise;
     @FXML
     private AnchorPane navigationPane;
     @FXML
@@ -265,7 +274,7 @@ public class  Controller implements Initializable{
 
                 Thread asyncSearch = new Thread(searchForPhrase);
                 asyncSearch.start();
-                list=SearchControl.getObservableList(list,repoControl.modpacks);
+                list= SearchControl.getObservableList(list,repoControl.modpacks);
             }
         });
         checkAutoUpdate.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -463,5 +472,44 @@ public class  Controller implements Initializable{
                         WindowEvent.WINDOW_CLOSE_REQUEST
                 )
         );
+    }
+    private double xOffset = 0;
+    private double yOffset = 0;
+    @FXML
+    private void openModpackInsiderWindow()
+    {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/modpackInsider.fxml"));
+        Parent root1 = null;
+        try {
+            root1 = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.initModality(Modality.NONE);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setTitle("e");
+        stage.setScene(new Scene(root1));
+        stage.show();
+        root1.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+        //move around here
+        root1.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        });
+    }
+    //dont use it lol
+    @FXML
+    private void maximiseProgram(){
+        stage.setMaximized(true);
     }
 }

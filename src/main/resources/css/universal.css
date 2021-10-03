@@ -1,8 +1,30 @@
 // Background color of the whole context menu
-.choice-box .context-menu { -fx-background-color:  #696969; }
+.choice-box .context-menu { -fx-background-color:  #696969;
+}
 // Focused item background color in the list
-.choice-box .menu-item:focused { -fx-background-color:  #696969; }
+.choice-box .menu-item:focused {
+-fx-background-color:  #696969;
+}
 // Text color of non-focused items in the list
-.choice-box .menu-item > .label { -fx-text-fill: white; }
+.choice-box .menu-item > .label {
+ -fx-text-fill: white;
+ }
 // Text color of focused item in the list
-.choice-box .menu-item:focused > .label { -fx-text-fill:  #191919; }
+.choice-box .menu-item:focused > .label {
+ -fx-text-fill:  #191919;
+ }
+.list-cell {
+    -fx-cell-hover-color:  #696969;
+    -fx-background-color: #696969;
+    -fx-text-fill: white;
+}
+
+.list-cell:filled:hover {
+    -fx-cell-hover-color:  #696969;
+    -fx-text-fill: white;
+    -fx-background-color: #696969;
+}
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color:#3a3a3a;
+    -fx-text-fill: white;
+}

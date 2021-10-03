@@ -8,16 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sample.fxml.Controller;
 
 public class Main extends Application {
     private double xOffset = 0;
     private double yOffset = 0;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/sample.fxml")));
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample.fxml"));
-        //Create the scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
         Parent root = loader.load();
         root.getStylesheets().add("/mainStyle.css");
         primaryStage.setTitle("ModpackManager");
@@ -28,7 +27,6 @@ public class Main extends Application {
         Scene mainScene = primaryStage.getScene();
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
-
         root.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -36,7 +34,6 @@ public class Main extends Application {
                 yOffset = event.getSceneY();
             }
         });
-
         //move around here
         root.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override

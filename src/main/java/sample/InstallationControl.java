@@ -18,7 +18,7 @@ import java.util.Comparator;
 
 public class InstallationControl {
     //variables to be loaded from config.json
-    ModpackData currentModpack =null;
+    public ModpackData currentModpack =null;
 
     //YO
     //I NEED TO
