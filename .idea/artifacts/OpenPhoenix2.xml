@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="OpenPhoenix2">
+    <output-path>$PROJECT_DIR$/out/artifacts/OpenPhoenix2</output-path>
+    <root id="root">
+      <element id="archive" name="OpenPhoenix.jar">
+        <element id="module-output" name="OpenPhoenix" />
+      </element>
+    </root>
+  </artifact>
+</component>

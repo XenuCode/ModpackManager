@@ -20,7 +20,12 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="OpenPhoenix" target="8" />
+      <module name="OpenPhoenix" target="17" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="OpenPhoenix" options="" />
+    </option>
   </component>
 </project>

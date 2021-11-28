@@ -1,4 +1,4 @@
-# ModpackManager
+# OpenManager
 Open source solution for softweare like CurseForge and Technic launcher developed from scratch in Java
 
 WORK IN PROGRESS many things may change in future
