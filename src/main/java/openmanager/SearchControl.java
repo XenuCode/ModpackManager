@@ -36,7 +36,7 @@ public class SearchControl {
         {
             float sum=0;
             for (ModpackData modpack:modpacks) {
-                sum=+modpack.getPhraseMach();
+                sum+=modpack.getPhraseMach();
             }
             sum/=(float)modpacks.size();
             return sum*10;

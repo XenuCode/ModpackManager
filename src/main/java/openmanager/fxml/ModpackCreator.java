@@ -1,4 +1,4 @@
-package fxml;
+package openmanager.fxml;
 
 public class ModpackCreator {
 }

@@ -5,8 +5,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="569.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="openmanager.fxml.Controller">
-    <Pane fx:id="settingsPane" focusTraversable="true" prefHeight="575.0" prefWidth="1098.0" style="-fx-background-color: #304454;">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="1096.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="openmanager.fxml.Controller">
+    <Pane fx:id="settingsPane" focusTraversable="true" prefHeight="630.0" prefWidth="1120.0" style="-fx-background-color: #304454;">
         <children>
             <Text fx:id="settingsInstallationFolder" fill="WHITE" fontSmoothingType="LCD" layoutX="156.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="installation folder" textAlignment="CENTER" wrappingWidth="225.13671875">
                 <font>
@@ -79,14 +79,14 @@
             </Text>
         </children>
     </Pane>
-    <Pane fx:id="modpackPane" prefHeight="575.0" prefWidth="1098.0" style="-fx-background-color: #304454;">
+    <Pane fx:id="modpackPane" prefHeight="630.0" prefWidth="1120.0" style="-fx-background-color: #304454;">
         <children>
-            <ImageView fx:id="backgroundImage" fitHeight="593.0" fitWidth="1119.0" layoutX="-12.0" layoutY="-8.0" pickOnBounds="true">
+            <ImageView fx:id="backgroundImage" fitHeight="647.0" fitWidth="1150.0" layoutX="-12.0" layoutY="-8.0" pickOnBounds="true">
                 <image>
                     <Image url="@images/LogoNoBackground.png" />
                 </image>
             </ImageView>
-            <Pane layoutX="449.0" layoutY="74.0" opacity="0.8" prefHeight="392.0" prefWidth="627.0" style="-fx-background-color: #696969;">
+            <Pane layoutX="391.0" layoutY="74.0" opacity="0.8" prefHeight="350.0" prefWidth="709.0" style="-fx-background-color: #696969;">
                 <children>
                     <Text fx:id="modpackStaticName" fill="WHITE" layoutX="14.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="148.5078125">
                         <font>
@@ -120,26 +120,41 @@
                     </Label>
                 </children>
             </Pane>
-            <ListView fx:id="listView" fixedCellSize="50.0" layoutX="21.0" layoutY="74.0" opacity="0.8" prefHeight="392.0" prefWidth="319.0" style="-fx-background-color: #696969;" stylesheets="@../css/universal.css" />
-            <Text fx:id="installationProcess" fill="WHITE" layoutX="368.0" layoutY="513.0" opacity="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="READY" textAlignment="CENTER" wrappingWidth="363.0">
+            <ListView fx:id="listView" fixedCellSize="50.0" layoutX="21.0" layoutY="73.0" opacity="0.8" prefHeight="492.0" prefWidth="344.0" style="-fx-background-color: #696969;" stylesheets="@../css/universal.css" />
+            <Text fx:id="installationProcess" fill="WHITE" layoutX="371.0" layoutY="574.0" opacity="0.8" strokeType="OUTSIDE" strokeWidth="0.0" text="READY" textAlignment="CENTER" wrappingWidth="363.0">
                 <font>
                     <Font name="Candara" size="14.0" />
                 </font>
             </Text>
-            <ProgressBar fx:id="downloadProgress" layoutX="449.0" layoutY="517.0" prefWidth="200.0" progress="0.0" />
-            <Button fx:id="installModpack" layoutX="997.0" layoutY="486.0" mnemonicParsing="false" onMouseClicked="#InstallModpack" opacity="0.8" prefHeight="34.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="INSTALL" textFill="WHITE" />
-            <TextField fx:id="searchBar" layoutX="21.0" layoutY="31.0" opacity="0.8" prefHeight="34.0" prefWidth="319.0" promptText="Search" style="-fx-background-color: #696969; -fx-text-fill: ffffff;">
+            <ProgressBar fx:id="downloadProgress" layoutX="452.0" layoutY="578.0" prefWidth="200.0" progress="0.0" />
+            <Button fx:id="installModpack" layoutX="975.0" layoutY="571.0" mnemonicParsing="false" onMouseClicked="#InstallModpack" opacity="0.8" prefHeight="34.0" prefWidth="125.0" style="-fx-background-color: #696969;" text="INSTALL" textFill="WHITE" />
+            <TextField fx:id="searchBar" layoutX="20.0" layoutY="34.0" opacity="0.8" prefHeight="34.0" prefWidth="344.0" promptText="Search" style="-fx-background-color: #696969; -fx-text-fill: ffffff;">
                 <font>
                     <Font name="Consolas" size="15.0" />
                 </font>
             </TextField>
-            <Text fill="WHITE" layoutX="480.0" layoutY="562.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="modpack updater beta 0.1" textAlignment="CENTER" />
-            <ChoiceBox fx:id="languageList" layoutX="21.0" layoutY="486.0" opacity="0.7" prefHeight="34.0" prefWidth="90.0" style="-fx-background-color: #696969; -fx-text-fill: #ffffff;" stylesheets="@../css/universal.css" />
-            <Button fx:id="inspectModpack" layoutX="885.0" layoutY="486.0" mnemonicParsing="false" onAction="#openModpackInsiderWindow" onMouseClicked="#InstallModpack" opacity="0.8" prefHeight="34.0" prefWidth="79.0" style="-fx-background-color: #696969;" text="INSCPECT" textFill="WHITE" />
+            <Text fill="WHITE" layoutX="471.0" layoutY="620.0" opacity="0.5" strokeType="OUTSIDE" strokeWidth="0.0" text="modpack manager alpha" textAlignment="CENTER" />
+            <ChoiceBox fx:id="languageList" disable="true" layoutX="275.0" layoutY="571.0" opacity="0.7" prefHeight="34.0" prefWidth="90.0" style="-fx-background-color: #696969; -fx-text-fill: #ffffff;" stylesheets="@../css/universal.css" visible="false" />
+            <Button fx:id="inspectModpack" layoutX="842.0" layoutY="571.0" mnemonicParsing="false" onAction="#openModpackInsiderWindow" onMouseClicked="#InstallModpack" opacity="0.8" prefHeight="34.0" prefWidth="125.0" style="-fx-background-color: #696969;" text="INSCPECT" textFill="WHITE" />
+          <Button fx:id="close" layoutX="1076.0" layoutY="10.0" mnemonicParsing="false" onAction="#closeProgram" onMouseClicked="#InstallModpack" opacity="0.8" prefHeight="20.0" prefWidth="24.0" style="-fx-background-color: #909090;" styleClass="close-button" stylesheets="@../css/universal.css" textFill="WHITE">
+              <font>
+                  <Font name="System Bold" size="9.0" />
+              </font>
+          </Button>
+          <Button fx:id="minimise" ellipsisString="" layoutX="1048.0" layoutY="11.0" mnemonicParsing="false" onMouseClicked="#InstallModpack" opacity="0.8" prefHeight="10.0" prefWidth="24.0" style="-fx-background-color: #909090; -fx: 1;" styleClass="minimize-button" stylesheets="@../css/universal.css" textFill="WHITE">
+              <font>
+                  <Font name="System Bold" size="9.0" />
+              </font>
+          </Button>
+         <Text layoutX="21.0" layoutY="595.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi XenuXenunowski" wrappingWidth="344.0">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Text>
         </children>
     </Pane>
    <Pane prefHeight="575.0" prefWidth="1098.0" style="-fx-background-color: #304454;" visible="false" />
-    <GridPane alignment="TOP_CENTER" layoutX="449.0" layoutY="35.0" prefHeight="34.0" prefWidth="627.0">
+    <GridPane alignment="TOP_CENTER" layoutX="391.0" layoutY="35.0" prefHeight="34.0" prefWidth="709.0">
         <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -152,22 +167,22 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <children>
-            <Button fx:id="Create" mnemonicParsing="false" onAction="#changePaneToSettings" opacity="0.8" prefHeight="44.0" prefWidth="333.0" style="-fx-background-color: #696969;" text="CREATE" textFill="WHITE" GridPane.columnIndex="1">
+            <Button fx:id="Create" mnemonicParsing="false" onAction="#changePaneToSettings" opacity="0.8" prefHeight="34.0" prefWidth="132.0" style="-fx-background-color: #696969;" text="CREATE" textFill="WHITE" GridPane.columnIndex="3">
                 <font>
                     <Font name="Candara" size="15.0" />
                 </font>
             </Button>
-            <Button fx:id="newsButton" mnemonicParsing="false" onAction="#changePaneToNews" opacity="0.8" prefHeight="79.0" prefWidth="173.0" style="-fx-background-color: #696969;" text="NEWS" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="3">
+            <Button fx:id="newsButton" mnemonicParsing="false" onAction="#changePaneToNews" opacity="0.8" prefHeight="34.0" prefWidth="132.0" style="-fx-background-color: #696969;" text="NEWS" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="4">
                 <font>
                     <Font name="Candara" size="15.0" />
                 </font>
             </Button>
-            <Button fx:id="discoverButton" mnemonicParsing="false" onAction="#changePaneToDiscover" opacity="0.8" prefHeight="79.0" prefWidth="173.0" style="-fx-background-color: #696969;" text="DISCOVER" textFill="WHITE" GridPane.columnIndex="4">
+            <Button fx:id="discoverButton" mnemonicParsing="false" onAction="#changePaneToDiscover" opacity="0.8" prefHeight="34.0" prefWidth="132.0" style="-fx-background-color: #696969;" text="DISCOVER" textFill="WHITE" GridPane.columnIndex="2">
                 <font>
                     <Font name="Candara" size="15.0" />
                 </font>
             </Button>
-            <Button fx:id="modpacksButton" mnemonicParsing="false" onAction="#changePaneToModpacks" opacity="0.8" prefHeight="44.0" prefWidth="333.0" style="-fx-background-color: #696969;" text="MODPACKS" textFill="WHITE" GridPane.columnIndex="2">
+            <Button fx:id="modpacksButton" mnemonicParsing="false" onAction="#changePaneToModpacks" opacity="0.8" prefHeight="34.0" prefWidth="132.0" style="-fx-background-color: #696969;" text="MODPACKS" textFill="WHITE" GridPane.columnIndex="1">
                 <font>
                     <Font name="Candara" size="15.0" />
                 </font>
@@ -180,14 +195,4 @@
 
               </children>
     </GridPane>
-    <Button fx:id="close" layoutX="1052.0" layoutY="9.0" mnemonicParsing="false" onAction="#closeProgram" onMouseClicked="#InstallModpack" opacity="0.8" prefHeight="20.0" prefWidth="24.0" style="-fx-background-color: #909090;" styleClass="close-button" stylesheets="@../css/universal.css" textFill="WHITE">
-        <font>
-            <Font name="System Bold" size="9.0" />
-        </font>
-    </Button>
-    <Button fx:id="minimise" ellipsisString="" layoutX="1026.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#InstallModpack" opacity="0.8" prefHeight="20.0" prefWidth="24.0" style="-fx-background-color: #909090; -fx: 1;" styleClass="minimize-button" stylesheets="@../css/universal.css" textFill="WHITE">
-        <font>
-            <Font name="System Bold" size="9.0" />
-        </font>
-    </Button>
 </Pane>

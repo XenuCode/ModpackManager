@@ -23,7 +23,7 @@ public class SettingsControler {
     public void loadSettings() throws IOException {
         Properties settingsFile = new Properties();
         File file = new File(APPLICATION_DATA_PATH+"/OpenManager/config.properties");
-        System.out.println(file.toString()+"SOMETHING");
+        System.out.println(file +"SOMETHING");
         if(!file.isFile())
         {
             new File(APPLICATION_DATA_PATH+"/OpenManager").mkdirs();

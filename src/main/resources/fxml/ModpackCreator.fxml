@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fxml.ModpackCreator"
-            prefHeight="400.0" prefWidth="600.0">
-
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<AnchorPane prefHeight="482.0" prefWidth="726.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ModpackCreator">
+   <children>
+      <ListView id="modList" layoutX="14.0" layoutY="14.0" prefHeight="376.0" prefWidth="215.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="26.0" />
+      <ListView id="modDependencies" layoutX="244.0" layoutY="210.0" prefHeight="133.0" prefWidth="275.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="14.0" />
+      <ImageView id="modImage" fitHeight="64.0" fitWidth="64.0" layoutX="246.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="416.0" AnchorPane.topAnchor="28.0">
+         <viewport>
+            <Rectangle2D width="4.0" />
+         </viewport>
+      </ImageView>
+      <Text id="modStaticDependencies" layoutX="240.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dependencies" wrappingWidth="100.7294921875" AnchorPane.bottomAnchor="151.93408203125" />
+      <Text layoutX="317.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="By " wrappingWidth="394.7294921875" AnchorPane.topAnchor="60.0" />
+      <Text id="modStaticName" layoutX="241.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" wrappingWidth="74.7294921875" AnchorPane.bottomAnchor="278.93408203125" AnchorPane.topAnchor="90.06591796875" />
+      <TextArea id="modDescription" layoutX="240.0" layoutY="102.0" prefHeight="99.0" prefWidth="356.0" AnchorPane.bottomAnchor="174.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="111.0" />
+      <Text id="modName" layoutX="317.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mod name" wrappingWidth="394.7294921875" />
+      <Button layoutX="700.0" layoutY="2.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
+      <Button layoutX="667.0" layoutY="2.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="24.0" />
+   </children>
 </AnchorPane>

@@ -9,7 +9,6 @@ module openmanager {
     requires fuzzywuzzy;
     requires toml4j;
     requires java.desktop;
-    requires org.apache.commons.lang3;
 
     exports openmanager.fxml;
     exports openmanager.modpackInsider;

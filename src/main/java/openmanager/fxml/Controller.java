@@ -13,14 +13,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.*;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
-import openmanager.HttpStuff;
 import openmanager.InstallationControl;
 import openmanager.SearchControl;
 import openmanager.SettingsControler;
@@ -31,8 +35,6 @@ import openmanager.repo.RepoControl;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -171,21 +173,41 @@ public class  Controller implements Initializable{
         ), APPLICATION_DATA_PATH+"/OpenManager/Modpacks/"+installationControl.currentModpack.UUID+"gamedata","-Xmx3G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M");
         installationProcess.setText("finished");
     };
+    private static Image convertToFxImage(BufferedImage image) {
+        WritableImage wr = null;
+        if (image != null) {
+            wr = new WritableImage(image.getWidth(), image.getHeight());
+            PixelWriter pw = wr.getPixelWriter();
+            for (int x = 0; x < image.getWidth(); x++) {
+                for (int y = 0; y < image.getHeight(); y++) {
+                    pw.setArgb(x, y, image.getRGB(x, y));
+                }
+            }
+        }
+
+        return new ImageView(wr).getImage();
+    }
     // TODO: 28.11.2021 SWITH TO ON DEMAND RAM CASHED IMAGES
     @FXML
-    Runnable downloadModpackImages = () -> {
+    Runnable changeImage = () -> {
         //switch to on demand ram cashed images
         try {
-            BufferedImage image = ImageIO.read(new URL("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2F0Orzu657uH4%2Fmaxresdefault.jpg&f=1&nofb=1"));
+            //BufferedImage image = ImageIO.read(new URL("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2F0Orzu657uH4%2Fmaxresdefault.jpg&f=1&nofb=1"));
+            URL urlInput = new URL("https://avatars2.githubusercontent.com/u/5411890");
+            BufferedImage urlImage = ImageIO.read(urlInput);
+            Image im = convertToFxImage(urlImage);
+            backgroundImage.setImage(im);
+            System.out.println("changed ?");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
+        /*try {
             HttpStuff.downloadModpackImage(installationControl.currentModpack);
             changeImage();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+         */
     };
 
     public void initialize(URL arg0, ResourceBundle arg1)
@@ -253,26 +275,17 @@ public class  Controller implements Initializable{
                 System.out.println("name of modpack: " +observableValue.getValue().name);
                 System.out.println("id of modpack: "+observableValue.getValue().UUID);
                 updateData(observableValue.getValue());
-                try {
 
-                    File directory = new File(APPLICATION_DATA_PATH+File.separator+"OpenManager"+File.separator+"Modpacks"+File.separator+installationControl.currentModpack.UUID+File.separator+"images"+File.separator+"background.png");
+                File directory = new File(APPLICATION_DATA_PATH+File.separator+"OpenManager"+File.separator+"Modpacks"+File.separator+installationControl.currentModpack.UUID+File.separator+"images"+File.separator+"background.png");
 
-                    System.out.println(installationControl.currentModpack.UUID);
-                    if (!directory.isFile())
-                    {
-                        File subDirectory = new File(APPLICATION_DATA_PATH+File.separator+"OpenManager"+File.separator+"Modpacks"+File.separator+installationControl.currentModpack.UUID+File.separator+"images");
-                        subDirectory.mkdirs();
-                        Thread asyncDownload = new Thread(downloadModpackImages);
-                        asyncDownload.start();
-                        //downloadModpackImages.start();
-                    }
-                    else
-                    {
-                        changeImage();
-                    }
-                } catch (FileNotFoundException e) {
-                    System.out.println("something is not right");
-                    e.printStackTrace();
+                System.out.println(installationControl.currentModpack.UUID);
+                if (!directory.isFile())
+                {
+                    File subDirectory = new File(APPLICATION_DATA_PATH+File.separator+"OpenManager"+File.separator+"Modpacks"+File.separator+installationControl.currentModpack.UUID);
+                    subDirectory.mkdirs();
+                    Thread asyncDownload = new Thread(changeImage);
+                    asyncDownload.start();
+                    //downloadModpackImages.start();
                 }
             }
         });
@@ -328,13 +341,6 @@ public class  Controller implements Initializable{
         checkCreateBackups.setSelected(settingsControler.getCreateBackups());
         changeLanguage(settingsControler.getLanguage());
 
-    }
-    private void changeImage() throws FileNotFoundException {
-        FileInputStream stream = new FileInputStream(APPLICATION_DATA_PATH+File.separator+"OpenManager"+File.separator+"Modpacks"+File.separator+installationControl.currentModpack.UUID+File.separator+"images"+File.separator+"background.png");
-        Image background = new Image( stream);
-        backgroundImage.setImage(background);
-        backgroundImage.setImage(background);
-        System.out.println("changed ?");
     }
     @FXML
     private void synchroniseRepoStart()
@@ -513,7 +519,7 @@ public class  Controller implements Initializable{
         }
         Stage stage = new Stage();
         stage.initModality(Modality.NONE);
-        stage.initStyle(StageStyle.UNDECORATED);
+        //stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("e");
         stage.setScene(new Scene(root1));
         stage.show();

@@ -53,7 +53,7 @@ public class RepoControl extends Thread {
     }
 
 
-    public  boolean getModpackRepo()
+    public  void getModpackRepo()
     {
         ReadableByteChannel readableByteChannel;
         try {
@@ -70,9 +70,7 @@ public class RepoControl extends Thread {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
     private static boolean getModpackRepo(int offset,int limit)
     {

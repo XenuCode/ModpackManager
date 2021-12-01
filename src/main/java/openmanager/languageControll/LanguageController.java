@@ -36,7 +36,4 @@ public class LanguageController {
         }
         System.out.println(languages.get("ENG").modpackName);
     }
-    public void changeLanguage(String LanguageCode){
-
-    }
 }
